@@ -82,14 +82,21 @@ Utils.moveInDirection = function(direction, value) {
  * @param {Number} dt Time delta for current frame in seconds
  */
 ENGINE.Ship.prototype.move = function(dt) {
+  var direction = 0;
+  var value = 0;
+
   if (!this.frozen) {
-    Utils.moveInDirection.apply(this, [this.direction, this.speed * dt]);
+    direction += this.direction
+    value += this.speed * dt
   }
 
   if (this.force > 0) {
     this.force -= 200 * dt;
-    Utils.moveInDirection.apply(this, [this.forceDirection, this.force * dt]);
+    direction += this.forceDirection
+    value += this.force * dt
   }
+
+  if (direction > 0) Utils.moveInDirection.apply(this, [direction, value]);
 };
 
 /**
