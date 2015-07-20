@@ -21,11 +21,10 @@
  * @return {Array} A new array with only passed elements
  */
 Utils.filter = function(array, test) {
-  var result = array.slice(); // Clone array
-  for (var i = 0; i < result.length; i++) {
-    if (!test(result[i])) {
-      result.splice(i, 1); // Remove element
-      i--;
+  var result = []
+  for (var i = 0; i < array.length; i++) {
+    if (!test(array[i])) {
+      result.push(array[i])
     }
   }
   return result;
@@ -38,25 +37,12 @@ Utils.filter = function(array, test) {
  * @return {Entity} Nearest Entity
  */
 Utils.nearest = function(from, entities) {
-  var distances = [];
   for (var i = 0; i < entities.length; i++) {
     var to = entities[i];
     if (from === to) continue;
     var distance = this.distance(from, to);
-    distances.push({
-      target: to,
-      distance: distance
-    });
-  }
-  if (!distances.length) {
-    return null;
-  }
-  var sortedDistances = distances.sort(
-    function sortDistances(a, b) {
-      return a.distance - b.distance;
-    }
-  );
-  return sortedDistances[0].target;
+    if (!nearestDistance || distance < nearestDistance) nearestDistance = distance
+  return nearestDistance;
 };
 
 /**
@@ -86,7 +72,7 @@ var axes = {
  * @param {Number} value Distance to move
  */
 Utils.moveInDirection = function(direction, value) {
-  Utils.justAnExpensiveLoop();
+  //Utils.justAnExpensiveLoop();
   value /= 100;
   for (var i = 0; i < 100; i++) {
     for (var axis in axes) {
