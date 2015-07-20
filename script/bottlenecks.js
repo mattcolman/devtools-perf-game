@@ -56,7 +56,6 @@ ENGINE.Ship.prototype.getTarget = function() {
     if (!(entity instanceof ENGINE.Ship)) continue;
     if (entity.team !== this.team) pool.push(entity);
   }
-  // Is Utils.nearest fast enough?
   return Utils.nearest(this, pool);
 };
 
@@ -72,28 +71,11 @@ var axes = {
  * @param {Number} value Distance to move
  */
 Utils.moveInDirection = function(direction, value) {
-  //Utils.justAnExpensiveLoop();
-  value /= 100;
-  for (var i = 0; i < 100; i++) {
-    for (var axis in axes) {
-      this[axis] += axes[axis](this.direction) * value;
-    }
+  for (var axis in axes) {
+    this[axis] += axes[axis](this.direction) * value;
   }
 };
 
-/**
- * I am really just an expensive loop ;)
- * Remove me and all references calling me!
- */
-Utils.justAnExpensiveLoop = function() {
-  // This isn't even doing anything
-  var oops = Array(1000);
-  oops.map(function(val, i) {
-    return Math.PI / 2500 * i;
-  }).filter(function(rad) {
-    return Math.sin(rad) > 0;
-  });
-}
 
 /**
  * Update ship position with current direction and speed
